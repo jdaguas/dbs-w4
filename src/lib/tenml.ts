@@ -17,6 +17,7 @@ export type PerfumeSummary = {
   accords: string[];
   key_notes: string[];
   character?: string | null;
+  links?: { type: string; title: string; url: string }[];
 };
 
 export type PerfumeDetail = PerfumeSummary & {

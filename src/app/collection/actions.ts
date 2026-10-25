@@ -56,3 +56,33 @@ export async function removeFromCollection(formData: FormData) {
 
   refresh();
 }
+
+// Saves which notes of a collection item to leave out of recommendations.
+export async function saveDiscardedNotes(id: string, discarded: string[]): Promise<ActionState> {
+  const { userId } = await auth();
+  if (!userId) return { error: "Please sign in first." };
+
+  const supabase = createServerSupabase();
+  const { data: item, error: readError } = await supabase
+    .from("collection_items")
+    .select("notes")
+    .eq("id", id)
+    .maybeSingle();
+  if (readError || !item) return { error: "Couldn't find that perfume in your collection." };
+
+  // Only keep names that are real notes of this perfume.
+  const notes = new Set<string>(item.notes);
+  const clean = [...new Set(discarded)].filter((note) => notes.has(note));
+
+  const { error } = await supabase
+    .from("collection_items")
+    .update({ discarded_notes: clean })
+    .eq("id", id);
+  if (error) {
+    console.error("saveDiscardedNotes", error);
+    return { error: "Couldn't save your choices. Please try again." };
+  }
+
+  refresh();
+  return { done: true };
+}

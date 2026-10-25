@@ -1,5 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+import Link from "next/link";
 import { Suspense } from "react";
+import { StatusBox } from "@/components/status-box";
 import { getCollection } from "@/lib/collection";
 import { searchPerfumes } from "@/lib/tenml";
 import { removeFromCollection } from "./actions";
@@ -104,7 +106,12 @@ async function CollectionList() {
         <li key={item.id} className="rounded-2xl border border-stone-200 bg-white p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="font-medium">{item.name}</p>
+              <Link
+                href={`/collection/${item.id}`}
+                className="font-medium underline-offset-4 hover:underline"
+              >
+                {item.name}
+              </Link>
               {item.house && <p className="text-sm text-stone-600">{item.house}</p>}
             </div>
             <form action={removeFromCollection}>
@@ -120,26 +127,5 @@ async function CollectionList() {
         </li>
       ))}
     </ul>
-  );
-}
-
-function StatusBox({
-  children,
-  tone = "neutral",
-}: {
-  children: React.ReactNode;
-  tone?: "neutral" | "error";
-}) {
-  return (
-    <p
-      role={tone === "error" ? "alert" : "status"}
-      className={`mt-4 rounded-2xl border px-5 py-4 text-sm ${
-        tone === "error"
-          ? "border-red-200 bg-red-50 text-red-800"
-          : "border-stone-200 bg-white text-stone-600"
-      }`}
-    >
-      {children}
-    </p>
   );
 }
