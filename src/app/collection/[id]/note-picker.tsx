@@ -45,7 +45,7 @@ export function NotePicker({
       <div className="space-y-4">
         {tiers.map((tier) => (
           <div key={tier.label}>
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-subtle">
               {tier.label}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -57,10 +57,10 @@ export function NotePicker({
                     type="button"
                     onClick={() => toggle(note)}
                     aria-pressed={kept}
-                    className={`rounded-full border px-3 py-1.5 text-sm ${
+                    className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
                       kept
-                        ? "border-stone-900 bg-stone-900 text-white"
-                        : "border-stone-300 bg-white text-stone-400 line-through"
+                        ? "border-sage/30 bg-sage-soft text-sage-dark hover:border-sage"
+                        : "border-dashed border-line-strong bg-surface text-subtle line-through hover:border-sage/50"
                     }`}
                   >
                     {note}
@@ -77,11 +77,11 @@ export function NotePicker({
           type="button"
           onClick={() => save(new Set())}
           disabled={discarded.size === 0}
-          className="rounded-full border border-stone-300 px-4 py-2 font-medium hover:bg-stone-100 disabled:opacity-40"
+          className="rounded-full border border-line-strong px-4 py-2 font-medium hover:bg-sage-soft disabled:opacity-40"
         >
           Keep all
         </button>
-        <span className="text-stone-500" aria-live="polite">
+        <span className="text-subtle" aria-live="polite">
           {pending ? "Saving…" : error ? "" : "Saved"}
         </span>
         {error && <span className="text-red-700">{error}</span>}

@@ -7,7 +7,7 @@ export function AddButton({ perfumeId, inCollection }: { perfumeId: string; inCo
   const [state, action, pending] = useActionState<ActionState, FormData>(addToCollection, {});
 
   if (inCollection || state.done) {
-    return <span className="text-sm font-medium text-stone-500">In your collection</span>;
+    return <span className="text-sm font-medium text-subtle">In your collection</span>;
   }
 
   return (
@@ -16,7 +16,7 @@ export function AddButton({ perfumeId, inCollection }: { perfumeId: string; inCo
       <button
         type="submit"
         disabled={pending}
-        className="rounded-full bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 disabled:opacity-50"
+        className="rounded-full bg-sage px-4 py-2 text-sm font-medium text-white hover:bg-sage-dark disabled:opacity-50"
       >
         {pending ? "Adding…" : "Add"}
       </button>

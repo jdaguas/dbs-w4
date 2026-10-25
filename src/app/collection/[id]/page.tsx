@@ -27,29 +27,29 @@ export default async function PerfumePage({ params }: PageProps<"/collection/[id
   return (
     <Shell>
       <h1 className="text-2xl font-semibold tracking-tight">{item.name}</h1>
-      {item.house && <p className="mt-1 text-stone-600">{item.house}</p>}
+      {item.house && <p className="mt-1 text-muted">{item.house}</p>}
 
-      <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-6">
+      <section className="mt-8 rounded-2xl border border-line bg-surface p-6 shadow-sm shadow-sage/5">
         <h2 className="text-lg font-semibold">Notes</h2>
-        <p className="mt-1 text-sm text-stone-600">
+        <p className="mt-1 text-sm text-muted">
           Click a note to leave it out of your recommendations. Everything is kept by default.
         </p>
         <div className="mt-5">
-          <Suspense fallback={<p className="text-sm text-stone-500">Loading notes…</p>}>
+          <Suspense fallback={<p className="text-sm text-subtle">Loading notes…</p>}>
             <Notes item={item} />
           </Suspense>
         </div>
         {item.accords.length > 0 && (
           <div className="mt-6">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500">Accords</p>
-            <p className="mt-2 text-sm text-stone-700">{item.accords.join(", ")}</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-subtle">Accords</p>
+            <p className="mt-2 text-sm text-ink-soft">{item.accords.join(", ")}</p>
           </div>
         )}
       </section>
 
       <section className="mt-12">
         <h2 className="text-lg font-semibold">Similar perfumes</h2>
-        <p className="mt-1 text-sm text-stone-600">
+        <p className="mt-1 text-sm text-muted">
           {item.discarded_notes.length === 0
             ? "Based on all of this perfume's notes and accords."
             : `Based on ${kept.length} kept ${kept.length === 1 ? "note" : "notes"} and the accords.`}
@@ -112,7 +112,7 @@ async function SimilarPerfumes({ item, kept }: { item: CollectionItem; kept: str
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-      <Link href="/collection" className="text-sm text-stone-600 hover:text-stone-900">
+      <Link href="/collection" className="text-sm text-muted hover:text-ink">
         ← My collection
       </Link>
       <div className="mt-6">{children}</div>

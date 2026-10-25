@@ -12,7 +12,7 @@ export function StatusBox({
       className={`mt-4 rounded-2xl border px-5 py-4 text-sm ${
         tone === "error"
           ? "border-red-200 bg-red-50 text-red-800"
-          : "border-stone-200 bg-white text-stone-600"
+          : "border-line bg-surface text-muted"
       }`}
     >
       {children}

@@ -32,23 +32,33 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-stone-50 text-stone-900">
-        <ClerkProvider>
-          <header className="border-b border-stone-200 bg-white">
+      <body className="min-h-full flex flex-col overflow-x-clip bg-canvas text-ink">
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#4f6f5a",
+              colorForeground: "#1f2a24",
+              colorBackground: "#ffffff",
+              borderRadius: "0.75rem",
+            },
+          }}
+        >
+          <header className="sticky top-0 z-10 border-b border-line bg-surface/85 backdrop-blur">
             <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-              <Link href="/" className="text-lg font-semibold tracking-tight">
+              <Link href="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+                <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-blush ring-4 ring-blush-soft" />
                 Scent Match
               </Link>
               <Suspense>
                 <nav className="flex items-center gap-3 text-sm">
                   <Show when="signed-out">
                     <SignInButton>
-                      <button className="rounded-full px-4 py-2 font-medium hover:bg-stone-100">
+                      <button className="rounded-full px-4 py-2 font-medium hover:bg-sage-soft">
                         Sign in
                       </button>
                     </SignInButton>
                     <SignUpButton>
-                      <button className="rounded-full bg-stone-900 px-4 py-2 font-medium text-white hover:bg-stone-700">
+                      <button className="rounded-full bg-sage px-4 py-2 font-medium text-white hover:bg-sage-dark">
                         Sign up
                       </button>
                     </SignUpButton>
@@ -56,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   <Show when="signed-in">
                     <Link
                       href="/collection"
-                      className="rounded-full px-4 py-2 font-medium hover:bg-stone-100"
+                      className="rounded-full px-4 py-2 font-medium hover:bg-sage-soft"
                     >
                       My collection
                     </Link>

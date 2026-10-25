@@ -24,11 +24,11 @@ export default async function CollectionPage({ searchParams }: PageProps<"/colle
             defaultValue={query}
             placeholder="Search perfumes, e.g. Baccarat Rouge"
             aria-label="Search perfumes"
-            className="flex-1 rounded-full border border-stone-300 bg-white px-5 py-3 outline-none focus:border-stone-900"
+            className="flex-1 rounded-full border border-line-strong bg-surface px-5 py-3 outline-none focus:border-sage"
           />
           <button
             type="submit"
-            className="rounded-full bg-stone-900 px-6 py-3 font-medium text-white hover:bg-stone-700"
+            className="rounded-full bg-sage px-6 py-3 font-medium text-white hover:bg-sage-dark"
           >
             Search
           </button>
@@ -71,16 +71,16 @@ async function SearchResults({ query }: { query: string }) {
 
   const saved = new Set(collection.items.map((item) => item.perfume_id));
   return (
-    <ul className="mt-4 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+    <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-surface shadow-sm shadow-sage/5">
       {result.data.map((perfume) => (
         <li key={perfume.id} className="flex items-center justify-between gap-4 px-5 py-4">
           <div>
             <p className="font-medium">{perfume.name}</p>
-            <p className="text-sm text-stone-600">
+            <p className="text-sm text-muted">
               {[perfume.house, perfume.year].filter(Boolean).join(" · ")}
             </p>
             {perfume.accords.length > 0 && (
-              <p className="mt-1 text-xs text-stone-500">{perfume.accords.join(", ")}</p>
+              <p className="mt-1 text-xs text-subtle">{perfume.accords.join(", ")}</p>
             )}
           </div>
           <AddButton perfumeId={perfume.id} inCollection={saved.has(perfume.id)} />
@@ -103,7 +103,7 @@ async function CollectionList() {
   return (
     <ul className="mt-4 grid gap-4 sm:grid-cols-2">
       {items.map((item) => (
-        <li key={item.id} className="rounded-2xl border border-stone-200 bg-white p-5">
+        <li key={item.id} className="rounded-2xl border border-line bg-surface p-5 shadow-sm shadow-sage/5 transition-colors hover:border-sage/40">
           <div className="flex items-start justify-between gap-4">
             <div>
               <Link
@@ -112,16 +112,16 @@ async function CollectionList() {
               >
                 {item.name}
               </Link>
-              {item.house && <p className="text-sm text-stone-600">{item.house}</p>}
+              {item.house && <p className="text-sm text-muted">{item.house}</p>}
             </div>
             <form action={removeFromCollection}>
               <input type="hidden" name="id" value={item.id} />
-              <button type="submit" className="text-sm text-stone-500 hover:text-red-700">
+              <button type="submit" className="text-sm text-subtle hover:text-red-700">
                 Remove
               </button>
             </form>
           </div>
-          <p className="mt-3 text-xs text-stone-500">
+          <p className="mt-3 text-xs text-subtle">
             {item.notes.length - item.discarded_notes.length} of {item.notes.length} notes kept
           </p>
         </li>

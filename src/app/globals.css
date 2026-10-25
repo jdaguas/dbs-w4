@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Soft botanical palette. Use these tokens instead of raw Tailwind colors. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-canvas: #f7f8f4;       /* page background */
+  --color-surface: #ffffff;      /* cards, header */
+  --color-ink: #1f2a24;          /* headings, primary text */
+  --color-ink-soft: #3a4a40;     /* body text on cards */
+  --color-muted: #55635a;        /* secondary text */
+  --color-subtle: #647368;       /* hints, captions */
+  --color-line: #dfe6dc;         /* borders */
+  --color-line-strong: #c9d4c6;  /* inputs, outline buttons */
+  --color-sage: #4f6f5a;         /* primary actions, kept notes */
+  --color-sage-dark: #3e5a48;    /* primary hover */
+  --color-sage-soft: #e8efe6;    /* light hover, tags */
+  --color-blush: #e7b8a8;        /* accent */
+  --color-blush-soft: #f8e9e3;   /* accent background */
+  --color-blush-ink: #8a4a3a;    /* text on blush */
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
