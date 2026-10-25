@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AccordTags, ScentAvatar } from "@/components/scent";
 import { StatusBox } from "@/components/status-box";
 import { getCollection } from "@/lib/collection";
 import { searchPerfumes } from "@/lib/tenml";
@@ -74,14 +75,15 @@ async function SearchResults({ query }: { query: string }) {
     <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-surface shadow-sm shadow-sage/5">
       {result.data.map((perfume) => (
         <li key={perfume.id} className="flex items-center justify-between gap-4 px-5 py-4">
-          <div>
-            <p className="font-medium">{perfume.name}</p>
-            <p className="text-sm text-muted">
-              {[perfume.house, perfume.year].filter(Boolean).join(" · ")}
-            </p>
-            {perfume.accords.length > 0 && (
-              <p className="mt-1 text-xs text-subtle">{perfume.accords.join(", ")}</p>
-            )}
+          <div className="flex items-start gap-4">
+            <ScentAvatar accords={perfume.accords} />
+            <div>
+              <p className="font-medium">{perfume.name}</p>
+              <p className="text-sm text-muted">
+                {[perfume.house, perfume.year].filter(Boolean).join(" · ")}
+              </p>
+              <AccordTags accords={perfume.accords} />
+            </div>
           </div>
           <AddButton perfumeId={perfume.id} inCollection={saved.has(perfume.id)} />
         </li>
@@ -105,14 +107,18 @@ async function CollectionList() {
       {items.map((item) => (
         <li key={item.id} className="rounded-2xl border border-line bg-surface p-5 shadow-sm shadow-sage/5 transition-colors hover:border-sage/40">
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <Link
-                href={`/collection/${item.id}`}
-                className="font-medium underline-offset-4 hover:underline"
-              >
-                {item.name}
-              </Link>
-              {item.house && <p className="text-sm text-muted">{item.house}</p>}
+            <div className="flex items-start gap-4">
+              <ScentAvatar accords={item.accords} />
+              <div>
+                <Link
+                  href={`/collection/${item.id}`}
+                  className="font-medium underline-offset-4 hover:underline"
+                >
+                  {item.name}
+                </Link>
+                {item.house && <p className="text-sm text-muted">{item.house}</p>}
+                <AccordTags accords={item.accords} />
+              </div>
             </div>
             <form action={removeFromCollection}>
               <input type="hidden" name="id" value={item.id} />

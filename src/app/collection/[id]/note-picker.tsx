@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { scentEmoji } from "@/lib/scent-emoji";
 import { saveDiscardedNotes } from "../actions";
 
 type Tier = { label: string; notes: string[] };
@@ -63,6 +64,11 @@ export function NotePicker({
                         : "border-dashed border-line-strong bg-surface text-subtle line-through hover:border-sage/50"
                     }`}
                   >
+                    {scentEmoji(note) && (
+                      <span aria-hidden className={`mr-1.5 ${kept ? "" : "opacity-40 grayscale"}`}>
+                        {scentEmoji(note)}
+                      </span>
+                    )}
                     {note}
                   </button>
                 );

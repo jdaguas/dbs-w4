@@ -1,4 +1,5 @@
 import type { ApiResult, SimilarResult } from "@/lib/tenml";
+import { AccordTags, ScentAvatar } from "./scent";
 import { StatusBox } from "./status-box";
 
 // Renders a /similar result, with designed empty and unavailable states.
@@ -35,18 +36,19 @@ export function Recommendations({
         return (
           <li key={perfume.id} className="rounded-2xl border border-line bg-surface p-5 shadow-sm shadow-sage/5">
             <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="font-medium">{perfume.name}</p>
-                {perfume.house && <p className="text-sm text-muted">{perfume.house}</p>}
+              <div className="flex items-start gap-3">
+                <ScentAvatar accords={perfume.accords} />
+                <div>
+                  <p className="font-medium">{perfume.name}</p>
+                  {perfume.house && <p className="text-sm text-muted">{perfume.house}</p>}
+                </div>
               </div>
               <span className="shrink-0 rounded-full bg-blush-soft px-2.5 py-1 text-xs font-medium text-blush-ink">
                 {closeness}
               </span>
             </div>
             <p className="mt-3 text-sm text-ink-soft">{why}</p>
-            {perfume.accords.length > 0 && (
-              <p className="mt-1 text-xs text-subtle">{perfume.accords.join(", ")}</p>
-            )}
+            <AccordTags accords={perfume.accords} />
             {tryLink && (
               <a
                 href={tryLink.url}

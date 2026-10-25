@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Recommendations } from "@/components/recommendations";
+import { AccordTags, ScentAvatar } from "@/components/scent";
 import { StatusBox } from "@/components/status-box";
 import { type CollectionItem, getCollectionItem, keptNotes } from "@/lib/collection";
 import { findSimilar, getPerfume } from "@/lib/tenml";
@@ -26,8 +27,13 @@ export default async function PerfumePage({ params }: PageProps<"/collection/[id
 
   return (
     <Shell>
-      <h1 className="text-2xl font-semibold tracking-tight">{item.name}</h1>
-      {item.house && <p className="mt-1 text-muted">{item.house}</p>}
+      <div className="flex items-center gap-5">
+        <ScentAvatar accords={item.accords} size="lg" />
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">{item.name}</h1>
+          {item.house && <p className="mt-1 text-muted">{item.house}</p>}
+        </div>
+      </div>
 
       <section className="mt-8 rounded-2xl border border-line bg-surface p-6 shadow-sm shadow-sage/5">
         <h2 className="text-lg font-semibold">Notes</h2>
@@ -42,7 +48,7 @@ export default async function PerfumePage({ params }: PageProps<"/collection/[id
         {item.accords.length > 0 && (
           <div className="mt-6">
             <p className="text-xs font-medium uppercase tracking-wide text-subtle">Accords</p>
-            <p className="mt-2 text-sm text-ink-soft">{item.accords.join(", ")}</p>
+            <AccordTags accords={item.accords} />
           </div>
         )}
       </section>
