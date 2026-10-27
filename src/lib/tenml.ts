@@ -22,6 +22,13 @@ export type PerfumeSummary = {
 
 export type PerfumeDetail = PerfumeSummary & {
   pyramid?: { top?: string[]; heart?: string[]; base?: string[] } | null;
+  gender?: "men" | "women" | "unisex" | null;
+  concentration?: string | null;
+  seasons?: string[];
+  occasions?: string[];
+  longevity?: number | null; // 1 (short) to 5 (very long)
+  projection?: number | null; // 1 (skin scent) to 5 (fills a room)
+  perfumers?: string[];
 };
 
 export type SimilarResult = {

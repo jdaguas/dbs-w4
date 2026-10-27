@@ -78,10 +78,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                       My collection
                     </Link>
                     <Link
+                      href="/wishlist"
+                      className="rounded-full px-4 py-2 font-medium hover:bg-sage-soft"
+                    >
+                      Wishlist
+                    </Link>
+                    <Link
                       href="/favorites"
                       className="rounded-full px-4 py-2 font-medium hover:bg-sage-soft"
                     >
-                      Favorites
+                      Favorite notes
                     </Link>
                     <UserButton />
                   </Show>

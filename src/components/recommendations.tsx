@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ApiResult, SimilarResult } from "@/lib/tenml";
 import { AccordTags, ScentAvatar } from "./scent";
 import { StatusBox } from "./status-box";
@@ -37,7 +38,12 @@ export function Recommendations({
               <div className="flex items-start gap-3">
                 <ScentAvatar accords={perfume.accords} />
                 <div>
-                  <p className="font-display text-lg font-semibold leading-snug">{perfume.name}</p>
+                  <Link
+                    href={`/perfume/${perfume.id}`}
+                    className="font-display text-lg font-semibold leading-snug underline-offset-4 hover:text-sage hover:underline"
+                  >
+                    {perfume.name}
+                  </Link>
                   {perfume.house && <p className="text-sm text-muted">{perfume.house}</p>}
                 </div>
               </div>
@@ -47,16 +53,24 @@ export function Recommendations({
             </div>
             <p className="mt-3 text-sm text-ink-soft">{why}</p>
             <AccordTags accords={perfume.accords} />
-            {tryLink && (
-              <a
-                href={tryLink.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-block text-sm font-medium text-sage underline decoration-sage/40 underline-offset-4 hover:decoration-sage"
+            <div className="mt-3 flex items-center gap-5 text-sm font-medium">
+              <Link
+                href={`/perfume/${perfume.id}`}
+                className="text-sage-dark hover:text-sage"
               >
-                View on 10ML
-              </a>
-            )}
+                Explore notes →
+              </Link>
+              {tryLink && (
+                <a
+                  href={tryLink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage underline decoration-sage/40 underline-offset-4 hover:decoration-sage"
+                >
+                  View on 10ML
+                </a>
+              )}
+            </div>
           </li>
         );
       })}

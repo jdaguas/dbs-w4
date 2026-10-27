@@ -33,6 +33,9 @@ async function addPerfume(page: Page, perfume: { query: string; name: string }) 
   const add = row.getByRole("button", { name: "Add" });
   await expect(add.or(row.getByText("In your collection"))).toBeVisible();
   if (await add.isVisible()) await add.click();
+  await expect(row.getByText("In your collection")).toBeVisible();
+  // Search results link to the catalog page too, so check the saved list without a query.
+  await page.goto("/collection");
   await expect(page.getByRole("link", { name: perfume.name, exact: true })).toBeVisible();
 }
 

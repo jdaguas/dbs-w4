@@ -40,6 +40,13 @@ export async function addToCollection(
     return { error: "Couldn't save it. Please try again." };
   }
 
+  // Owned now, so it comes off the wishlist (RLS limits this to the user's own rows).
+  const { error: wishlistError } = await supabase
+    .from("wishlist_items")
+    .delete()
+    .eq("perfume_id", perfume.id);
+  if (wishlistError) console.error("addToCollection wishlist", wishlistError);
+
   refresh();
   return { done: true };
 }

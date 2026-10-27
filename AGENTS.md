@@ -21,6 +21,10 @@ MPCS 51238 Assignment 4: full stack app with Clerk, Supabase and one external AP
    Discarded notes are just left out of the matching; results that happen to contain them are still shown.
 4. **No collection yet?** Pick favorite notes and accords from a list to get recommendations.
    These favorites are saved too, so they're there next time.
+5. **Explore a perfume.** Any recommended or searched perfume opens a catalog page (`/perfume/[id]`) with its
+   pyramid, accords, how it wears, and its own similar perfumes.
+6. **Keep a wishlist.** From a catalog page, save perfumes you want but don't own yet. The wishlist page lists
+   them; each one can be removed, or added to the collection from its catalog page.
 
 ## External API: 10ML Fragrance Index
 
@@ -79,6 +83,20 @@ Unique on `(user_id, perfume_id)`. Kept notes = `notes` minus `discarded_notes`.
 | `favorite_notes` | `text[]` not null | `default '{}'` |
 | `favorite_accords` | `text[]` not null | `default '{}'` |
 | `updated_at` | `timestamptz` | `default now()` |
+
+### `wishlist_items`: perfumes a person wants but doesn't own yet
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | `uuid` PK | `default gen_random_uuid()` |
+| `user_id` | `text` not null | `default auth.jwt()->>'sub'` |
+| `perfume_id` | `text` not null | 10ML id |
+| `name` | `text` not null | Copied from the API so the wishlist renders without an API call |
+| `house` | `text` | |
+| `accords` | `text[]` not null | Copied from the API (for the avatar and tags) |
+| `created_at` | `timestamptz` | `default now()` |
+
+Unique on `(user_id, perfume_id)`. Notes aren't copied: the catalog page reads them from the API.
 
 ### Row-level security
 

@@ -81,7 +81,12 @@ async function SearchResults({ query }: { query: string }) {
           <div className="flex items-start gap-4">
             <ScentAvatar accords={perfume.accords} />
             <div>
-              <p className="font-display text-lg font-semibold leading-snug">{perfume.name}</p>
+              <Link
+                href={`/perfume/${perfume.id}`}
+                className="font-display text-lg font-semibold leading-snug underline-offset-4 hover:text-sage hover:underline"
+              >
+                {perfume.name}
+              </Link>
               <p className="text-sm text-muted">
                 {[perfume.house, perfume.year].filter(Boolean).join(" · ")}
               </p>
