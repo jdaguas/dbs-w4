@@ -15,14 +15,27 @@
   --color-sage-soft: #e8efe6;    /* light hover, tags */
   --color-blush: #e7b8a8;        /* accent */
   --color-blush-soft: #f8e9e3;   /* accent background */
-  --color-blush-ink: #8a4a3a;    /* text on blush */
+  --color-blush-ink: #8a4a3a;    /* text on blush, eyebrow labels */
+  --color-amber: #d9a441;        /* top-note accent */
+  --color-amber-soft: #fbf1dc;   /* top-note background */
+  --color-amber-ink: #85591a;    /* text on amber */
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces); /* page, section and perfume titles */
 }
 
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Type hierarchy: eyebrow (small caps label) > display title (serif) > body (sans). */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-blush-ink);
 }

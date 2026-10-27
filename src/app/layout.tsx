@@ -6,7 +6,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Suspense } from "react";
 import "./globals.css";
@@ -21,6 +21,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Serif for titles, so headings read apart from the sans body text.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   title: "Scent Match",
   description: "Build a perfume collection and get recommendations from the notes you love.",
@@ -30,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip bg-canvas text-ink">
         <ClerkProvider
@@ -45,7 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           <header className="sticky top-0 z-10 border-b border-line bg-surface/85 backdrop-blur">
             <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-              <Link href="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+              <Link href="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
                 <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-blush ring-4 ring-blush-soft" />
                 Scent Match
               </Link>
