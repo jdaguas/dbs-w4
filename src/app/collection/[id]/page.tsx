@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Recommendations } from "@/components/recommendations";
+import { SectionHeading } from "@/components/headings";
 import { AccordTags, ScentAvatar } from "@/components/scent";
 import { StatusBox } from "@/components/status-box";
 import { type CollectionItem, getCollectionItem, keptNotes } from "@/lib/collection";
@@ -30,16 +31,15 @@ export default async function PerfumePage({ params }: PageProps<"/collection/[id
       <div className="flex items-center gap-5">
         <ScentAvatar accords={item.accords} size="lg" />
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{item.name}</h1>
-          {item.house && <p className="mt-1 text-muted">{item.house}</p>}
+          {item.house && <p className="eyebrow">{item.house}</p>}
+          <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight">{item.name}</h1>
         </div>
       </div>
 
       <section className="mt-8 rounded-2xl border border-line bg-surface p-6 shadow-sm shadow-sage/5">
-        <h2 className="text-lg font-semibold">Notes</h2>
-        <p className="mt-1 text-sm text-muted">
+        <SectionHeading title="Notes">
           Click a note to leave it out of your recommendations. Everything is kept by default.
-        </p>
+        </SectionHeading>
         <div className="mt-5">
           <Suspense fallback={<p className="text-sm text-subtle">Loading notes…</p>}>
             <Notes item={item} />
@@ -47,19 +47,18 @@ export default async function PerfumePage({ params }: PageProps<"/collection/[id
         </div>
         {item.accords.length > 0 && (
           <div className="mt-6">
-            <p className="text-xs font-medium uppercase tracking-wide text-subtle">Accords</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-subtle">Accords</p>
             <AccordTags accords={item.accords} />
           </div>
         )}
       </section>
 
       <section className="mt-12">
-        <h2 className="text-lg font-semibold">Similar perfumes</h2>
-        <p className="mt-1 text-sm text-muted">
+        <SectionHeading title="Similar perfumes">
           {item.discarded_notes.length === 0
             ? "Based on all of this perfume's notes and accords."
             : `Based on ${kept.length} kept ${kept.length === 1 ? "note" : "notes"} and the accords.`}
-        </p>
+        </SectionHeading>
         <Suspense
           key={item.discarded_notes.join("|")}
           fallback={<StatusBox>Finding similar perfumes…</StatusBox>}

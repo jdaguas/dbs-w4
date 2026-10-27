@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageHeader, SectionHeading } from "@/components/headings";
 import { AccordTags, ScentAvatar } from "@/components/scent";
 import { StatusBox } from "@/components/status-box";
 import { getCollection } from "@/lib/collection";
@@ -15,7 +16,9 @@ export default async function CollectionPage({ searchParams }: PageProps<"/colle
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">My collection</h1>
+      <PageHeader eyebrow="Your shelf" title="My collection">
+        Search the catalog to add perfumes you own or love, then open one to tune its notes.
+      </PageHeader>
 
       <section className="mt-8">
         <form action="/collection" className="flex gap-2">
@@ -42,7 +45,7 @@ export default async function CollectionPage({ searchParams }: PageProps<"/colle
       </section>
 
       <section className="mt-12">
-        <h2 className="text-lg font-semibold">Saved perfumes</h2>
+        <SectionHeading title="Saved perfumes" />
         <Suspense fallback={<StatusBox>Loading your collection…</StatusBox>}>
           <CollectionList />
         </Suspense>
@@ -78,7 +81,7 @@ async function SearchResults({ query }: { query: string }) {
           <div className="flex items-start gap-4">
             <ScentAvatar accords={perfume.accords} />
             <div>
-              <p className="font-medium">{perfume.name}</p>
+              <p className="font-display text-lg font-semibold leading-snug">{perfume.name}</p>
               <p className="text-sm text-muted">
                 {[perfume.house, perfume.year].filter(Boolean).join(" · ")}
               </p>
@@ -120,7 +123,7 @@ async function CollectionList() {
               <div>
                 <Link
                   href={`/collection/${item.id}`}
-                  className="font-medium underline-offset-4 hover:underline"
+                  className="font-display text-lg font-semibold leading-snug underline-offset-4 hover:text-sage hover:underline"
                 >
                   {item.name}
                 </Link>

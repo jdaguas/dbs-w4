@@ -101,7 +101,7 @@ function ChipGroup({
 }) {
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wide text-subtle">{label}</p>
+      <p className="text-xs font-semibold uppercase tracking-wider text-subtle">{label}</p>
       <div className="mt-2 flex flex-wrap gap-2">
         {options.map((name) => {
           const on = picked.has(name);

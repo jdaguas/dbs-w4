@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { Suspense } from "react";
 import { Recommendations } from "@/components/recommendations";
+import { PageHeader, SectionHeading } from "@/components/headings";
 import { StatusBox } from "@/components/status-box";
 import { getTastePreferences, type TastePreferences } from "@/lib/taste";
 import { findSimilar } from "@/lib/tenml";
@@ -11,11 +12,10 @@ export default async function FavoritesPage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Favorite notes</h1>
-      <p className="mt-2 max-w-xl text-muted">
+      <PageHeader eyebrow="Start from scratch" title="Favorite notes">
         No collection yet? Pick the accords and notes you love and we&apos;ll find perfumes built
         around them. Your picks are saved for next time.
-      </p>
+      </PageHeader>
       {/* Reads the signed-in user's row, so it streams in behind the boundary. */}
       <Suspense fallback={<StatusBox>Loading your favorites…</StatusBox>}>
         <Favorites />
@@ -41,7 +41,7 @@ async function Favorites() {
       </section>
 
       <section className="mt-12">
-        <h2 className="text-lg font-semibold">Recommended for you</h2>
+        <SectionHeading title="Recommended for you" />
         <Suspense
           key={[...prefs.favorite_notes, "|", ...prefs.favorite_accords].join(",")}
           fallback={<StatusBox>Finding perfumes…</StatusBox>}

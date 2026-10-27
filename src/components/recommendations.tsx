@@ -37,7 +37,7 @@ export function Recommendations({
               <div className="flex items-start gap-3">
                 <ScentAvatar accords={perfume.accords} />
                 <div>
-                  <p className="font-medium">{perfume.name}</p>
+                  <p className="font-display text-lg font-semibold leading-snug">{perfume.name}</p>
                   {perfume.house && <p className="text-sm text-muted">{perfume.house}</p>}
                 </div>
               </div>

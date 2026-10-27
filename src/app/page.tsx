@@ -13,11 +13,10 @@ export default function Home() {
         aria-hidden
         className="pointer-events-none absolute -left-16 bottom-0 -z-10 h-72 w-72 rounded-full bg-sage-soft blur-3xl"
       />
-      <p className="mb-4 inline-flex w-fit rounded-full bg-sage-soft px-3 py-1 text-sm font-medium text-sage-dark">
-        Notes-first perfume recommendations
-      </p>
-      <h1 className="max-w-2xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-        Find perfumes that smell like the <span className="text-sage">ones you love</span>.
+      <p className="eyebrow">Notes-first perfume recommendations</p>
+      <h1 className="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+        Find perfumes that smell like the{" "}
+        <em className="font-medium text-sage">ones you love</em>.
       </h1>
       <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
         Add perfumes to your collection, choose which notes matter to you, and
