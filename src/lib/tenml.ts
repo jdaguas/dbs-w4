@@ -58,12 +58,14 @@ async function getJson(path: string): Promise<{ status: number; body: unknown }>
   }
 }
 
+// Any failure is shown as "unavailable". Errors thrown inside "use cache" come back
+// as plain Errors, so `instanceof ApiUnavailableError` can't be relied on here.
 async function guard<T>(fn: () => Promise<ApiResult<T>>): Promise<ApiResult<T>> {
   try {
     return await fn();
   } catch (err) {
-    if (err instanceof ApiUnavailableError) return { status: "unavailable" };
-    throw err;
+    console.error("10ML API", err);
+    return { status: "unavailable" };
   }
 }
 
@@ -106,6 +108,10 @@ export function getPerfume(id: string) {
   return guard(() => fetchPerfume(id));
 }
 
+// /similar rejects longer lists with HTTP 400.
+export const MAX_SIMILAR_NOTES = 30;
+export const MAX_SIMILAR_ACCORDS = 6;
+
 // Recommendations either from a whole perfume or from a set of notes/accords.
 export function findSimilar(
   input: { perfumeId: string } | { notes: string[]; accords: string[] },
@@ -115,8 +121,10 @@ export function findSimilar(
   if ("perfumeId" in input) {
     params.set("perfume", input.perfumeId);
   } else {
-    if (input.notes.length) params.set("notes", input.notes.join(","));
-    if (input.accords.length) params.set("accords", input.accords.join(","));
+    const notes = input.notes.slice(0, MAX_SIMILAR_NOTES);
+    const accords = input.accords.slice(0, MAX_SIMILAR_ACCORDS);
+    if (notes.length) params.set("notes", notes.join(","));
+    if (accords.length) params.set("accords", accords.join(","));
   }
   return guard(() => fetchSimilar(params.toString()));
 }

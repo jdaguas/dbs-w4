@@ -2,7 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { scentEmoji } from "@/lib/scent-emoji";
-import { FAVORITE_ACCORD_OPTIONS, FAVORITE_NOTE_OPTIONS } from "@/lib/taste-options";
+import {
+  FAVORITE_ACCORD_OPTIONS,
+  FAVORITE_NOTE_OPTIONS,
+  MAX_FAVORITE_ACCORDS,
+} from "@/lib/taste-options";
 import { saveFavorites } from "./actions";
 
 type Picks = { notes: Set<string>; accords: Set<string> };
@@ -49,9 +53,10 @@ export function FavoritesPicker({
     <div>
       <div className="space-y-5">
         <ChipGroup
-          label="Accords"
+          label={`Accords (up to ${MAX_FAVORITE_ACCORDS})`}
           options={FAVORITE_ACCORD_OPTIONS}
           picked={picks.accords}
+          full={picks.accords.size >= MAX_FAVORITE_ACCORDS}
           onToggle={(name) => toggle("accords", name)}
         />
         <ChipGroup
@@ -84,11 +89,14 @@ function ChipGroup({
   label,
   options,
   picked,
+  full = false,
   onToggle,
 }: {
   label: string;
   options: string[];
   picked: Set<string>;
+  // At the limit: unpicked chips are disabled until one is removed.
+  full?: boolean;
   onToggle: (name: string) => void;
 }) {
   return (
@@ -103,7 +111,8 @@ function ChipGroup({
               type="button"
               onClick={() => onToggle(name)}
               aria-pressed={on}
-              className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
+              disabled={full && !on}
+              className={`rounded-full border px-3 py-1.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
                 on
                   ? "border-sage bg-sage text-white hover:bg-sage-dark"
                   : "border-line-strong bg-surface text-ink-soft hover:border-sage/50 hover:bg-sage-soft"
