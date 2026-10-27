@@ -6,8 +6,9 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { getPerfume } from "@/lib/tenml";
 
 export type ActionState = { error?: string; done?: boolean };
+export type AddState = ActionState & { id?: string };
 
-export async function addToWishlist(perfumeId: string): Promise<ActionState> {
+export async function addToWishlist(perfumeId: string): Promise<AddState> {
   const { userId } = await auth();
   if (!userId) return { error: "Please sign in first." };
   if (!perfumeId) return { error: "Missing perfume." };
@@ -20,21 +21,34 @@ export async function addToWishlist(perfumeId: string): Promise<ActionState> {
   if (result.status === "empty") return { error: "That perfume is no longer in the catalog." };
 
   const perfume = result.data;
-  const { error } = await createServerSupabase().from("wishlist_items").insert({
-    perfume_id: perfume.id,
-    name: perfume.name,
-    house: perfume.house,
-    accords: perfume.accords,
-  });
+  const supabase = createServerSupabase();
+  const { data, error } = await supabase
+    .from("wishlist_items")
+    .insert({
+      perfume_id: perfume.id,
+      name: perfume.name,
+      house: perfume.house,
+      accords: perfume.accords,
+    })
+    .select("id")
+    .single();
 
-  // 23505 = unique violation: it's already on the wishlist, which is fine.
-  if (error && error.code !== "23505") {
+  // 23505 = unique violation: it's already on the wishlist, so return the existing row.
+  let id = data?.id as string | undefined;
+  if (error?.code === "23505") {
+    const existing = await supabase
+      .from("wishlist_items")
+      .select("id")
+      .eq("perfume_id", perfume.id)
+      .maybeSingle();
+    id = existing.data?.id;
+  } else if (error) {
     console.error("addToWishlist", error);
     return { error: "Couldn't save it. Please try again." };
   }
 
   refresh();
-  return { done: true };
+  return { done: true, id };
 }
 
 export async function removeFromWishlist(id: string): Promise<ActionState> {

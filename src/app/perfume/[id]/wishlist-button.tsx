@@ -11,15 +11,25 @@ export function WishlistButton({
   perfumeId: string;
   itemId: string | null;
 }) {
+  // Kept locally so the button flips as soon as the action returns, without waiting
+  // for the page to re-render from the server.
+  const [savedId, setSavedId] = useState(itemId);
   const [error, setError] = useState<string>();
   const [pending, startTransition] = useTransition();
-  const saved = itemId !== null;
+  const saved = savedId !== null;
 
   function toggle() {
     setError(undefined);
     startTransition(async () => {
-      const result = saved ? await removeFromWishlist(itemId) : await addToWishlist(perfumeId);
-      if (result.error) setError(result.error);
+      if (savedId !== null) {
+        const result = await removeFromWishlist(savedId);
+        if (result.error) setError(result.error);
+        else setSavedId(null);
+      } else {
+        const result = await addToWishlist(perfumeId);
+        if (result.error) setError(result.error);
+        else setSavedId(result.id ?? null);
+      }
     });
   }
 
