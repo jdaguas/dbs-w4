@@ -6,9 +6,11 @@ import { StatusBox } from "./status-box";
 export function Recommendations({
   result,
   excludeId,
+  emptyMessage = "No similar perfumes found for this combination. Try keeping a few more notes.",
 }: {
   result: ApiResult<SimilarResult[]>;
   excludeId?: string;
+  emptyMessage?: string;
 }) {
   if (result.status === "unavailable") {
     return (
@@ -22,11 +24,7 @@ export function Recommendations({
   const results =
     result.status === "ok" ? result.data.filter((r) => r.perfume.id !== excludeId) : [];
   if (results.length === 0) {
-    return (
-      <StatusBox>
-        No similar perfumes found for this combination. Try keeping a few more notes.
-      </StatusBox>
-    );
+    return <StatusBox>{emptyMessage}</StatusBox>;
   }
 
   return (

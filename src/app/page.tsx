@@ -40,6 +40,12 @@ export default function Home() {
             >
               Go to my collection
             </Link>
+            <Link
+              href="/favorites"
+              className="ml-3 inline-block rounded-full border border-line-strong px-6 py-3 font-medium hover:bg-sage-soft"
+            >
+              Start from favorite notes
+            </Link>
           </Show>
         </Suspense>
       </div>

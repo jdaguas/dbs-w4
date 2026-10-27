@@ -70,6 +70,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                     >
                       My collection
                     </Link>
+                    <Link
+                      href="/favorites"
+                      className="rounded-full px-4 py-2 font-medium hover:bg-sage-soft"
+                    >
+                      Favorites
+                    </Link>
                     <UserButton />
                   </Show>
                 </nav>
