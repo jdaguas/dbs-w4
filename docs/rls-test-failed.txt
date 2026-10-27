@@ -1,0 +1,32 @@
+Running 2 tests using 1 worker
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+  ✓  1 [setup] › e2e/global.setup.ts:6:6 › clerk setup (377ms)
+  ✘  2 [chromium] › e2e/rls.spec.ts:39:5 › two users can't see each other's collection (28.1s)
+  1) [chromium] › e2e/rls.spec.ts:39:5 › two users can't see each other's collection ───────────────
+    Error: expect(locator).toHaveCount(expected) failed
+    Locator:  getByRole('link', { name: 'Santal 33', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  20000ms
+    Call log:
+      - Expect "toHaveCount" getByRole('link', { name: 'Santal 33', exact: true }) with timeout 20000ms
+      - waiting for getByRole('link', { name: 'Santal 33', exact: true })
+        44 × locator resolved to 1 element
+           - unexpected value "1"
+      47 |   await alice.goto("/collection");
+      48 |   await expect(alice.getByRole("link", { name: A_PERFUME.name, exact: true })).toBeVisible();
+    > 49 |   await expect(alice.getByRole("link", { name: B_PERFUME.name, exact: true })).toHaveCount(0);
+         |                                                                                ^
+      50 |
+      51 |   await bob.goto("/collection");
+      52 |   await expect(bob.getByRole("link", { name: B_PERFUME.name, exact: true })).toBeVisible();
+        at /Users/jasonaguas/Documents/dbs-w4/e2e/rls.spec.ts:49:80
+    Error Context: test-results/rls-two-users-can-t-see-each-other-s-collection-chromium/error-context.md
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/rls-two-users-can-t-see-each-other-s-collection-chromium/trace.zip
+    Usage:
+        npx playwright show-trace test-results/rls-two-users-can-t-see-each-other-s-collection-chromium/trace.zip
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+  1 failed
+    [chromium] › e2e/rls.spec.ts:39:5 › two users can't see each other's collection ────────────────
+  1 passed (35.8s)
