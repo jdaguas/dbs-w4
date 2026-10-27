@@ -1,6 +1,9 @@
 // Notes and accords offered on the favorites page. The 10ML API has no endpoint
 // that lists them, so these are common names checked against /similar.
 
+// /similar accepts at most 6 accords (and 30 notes, which is all of the options below).
+export const MAX_FAVORITE_ACCORDS = 6;
+
 export const FAVORITE_ACCORD_OPTIONS = [
   "woody",
   "floral",

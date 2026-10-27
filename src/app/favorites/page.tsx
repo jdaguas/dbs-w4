@@ -8,7 +8,6 @@ import { FavoritesPicker } from "./favorites-picker";
 
 export default async function FavoritesPage() {
   await auth.protect();
-  const { prefs, error } = await getTastePreferences();
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
@@ -17,30 +16,40 @@ export default async function FavoritesPage() {
         No collection yet? Pick the accords and notes you love and we&apos;ll find perfumes built
         around them. Your picks are saved for next time.
       </p>
+      {/* Reads the signed-in user's row, so it streams in behind the boundary. */}
+      <Suspense fallback={<StatusBox>Loading your favorites…</StatusBox>}>
+        <Favorites />
+      </Suspense>
+    </main>
+  );
+}
 
+async function Favorites() {
+  const { prefs, error } = await getTastePreferences();
+
+  if (error) {
+    return <StatusBox tone="error">Couldn&apos;t load your favorites. Please refresh.</StatusBox>;
+  }
+
+  return (
+    <>
       <section className="mt-8 rounded-2xl border border-line bg-surface p-6 shadow-sm shadow-sage/5">
-        {error ? (
-          <StatusBox tone="error">Couldn&apos;t load your favorites. Please refresh.</StatusBox>
-        ) : (
-          <FavoritesPicker
-            initialNotes={prefs.favorite_notes}
-            initialAccords={prefs.favorite_accords}
-          />
-        )}
+        <FavoritesPicker
+          initialNotes={prefs.favorite_notes}
+          initialAccords={prefs.favorite_accords}
+        />
       </section>
 
       <section className="mt-12">
         <h2 className="text-lg font-semibold">Recommended for you</h2>
-        {!error && (
-          <Suspense
-            key={[...prefs.favorite_notes, "|", ...prefs.favorite_accords].join(",")}
-            fallback={<StatusBox>Finding perfumes…</StatusBox>}
-          >
-            <FavoriteRecommendations prefs={prefs} />
-          </Suspense>
-        )}
+        <Suspense
+          key={[...prefs.favorite_notes, "|", ...prefs.favorite_accords].join(",")}
+          fallback={<StatusBox>Finding perfumes…</StatusBox>}
+        >
+          <FavoriteRecommendations prefs={prefs} />
+        </Suspense>
       </section>
-    </main>
+    </>
   );
 }
 

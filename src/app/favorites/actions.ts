@@ -3,7 +3,11 @@
 import { auth } from "@clerk/nextjs/server";
 import { refresh } from "next/cache";
 import { createServerSupabase } from "@/lib/supabase/server";
-import { FAVORITE_ACCORD_OPTIONS, FAVORITE_NOTE_OPTIONS } from "@/lib/taste-options";
+import {
+  FAVORITE_ACCORD_OPTIONS,
+  FAVORITE_NOTE_OPTIONS,
+  MAX_FAVORITE_ACCORDS,
+} from "@/lib/taste-options";
 
 export type ActionState = { error?: string; done?: boolean };
 
@@ -16,7 +20,9 @@ export async function saveFavorites(notes: string[], accords: string[]): Promise
   const noteOptions = new Set(FAVORITE_NOTE_OPTIONS);
   const accordOptions = new Set(FAVORITE_ACCORD_OPTIONS);
   const cleanNotes = [...new Set(notes)].filter((note) => noteOptions.has(note));
-  const cleanAccords = [...new Set(accords)].filter((accord) => accordOptions.has(accord));
+  const cleanAccords = [...new Set(accords)]
+    .filter((accord) => accordOptions.has(accord))
+    .slice(0, MAX_FAVORITE_ACCORDS);
 
   // user_id comes from the column default (the Clerk `sub`), so it's never sent from here.
   const { error } = await createServerSupabase()
