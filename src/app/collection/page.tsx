@@ -99,7 +99,15 @@ async function CollectionList() {
     return <StatusBox tone="error">Couldn&apos;t load your collection. Please refresh.</StatusBox>;
   }
   if (items.length === 0) {
-    return <StatusBox>Your collection is empty. Search above to add your first perfume.</StatusBox>;
+    return (
+      <StatusBox>
+        Your collection is empty. Search above to add your first perfume, or{" "}
+        <Link href="/favorites" className="font-medium text-sage underline underline-offset-4">
+          start from your favorite notes
+        </Link>
+        .
+      </StatusBox>
+    );
   }
 
   return (
